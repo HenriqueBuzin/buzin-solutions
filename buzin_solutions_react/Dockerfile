@@ -1,12 +1,12 @@
-# Imagem de Origem
 FROM node:18-alpine
-# Diretório de trabalho(é onde a aplicação ficará dentro do container).
-WORKDIR /app
-# Adicionando `/app/node_modules/.bin` para o $PATH
-ENV PATH /app/node_modules/.bin:$PATH
-# Instalando dependências da aplicação e armazenando em cache.
-COPY package.json /app/package.json
-RUN npm install --silent
-RUN npm install react-scripts@5.0.1 -g --silent
-# Inicializa a aplicação
+
+WORKDIR /buzin_solutions_react
+
+ENV PATH /buzin_solutions_react/node_modules/.bin:$PATH
+
+COPY package.json /buzin_solutions_react/package.json
+
+RUN npm install
+RUN npm install react-scripts@5.0.1 -g
+
 CMD ["npm", "start"]
