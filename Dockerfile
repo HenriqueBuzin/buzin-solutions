@@ -1,18 +1,17 @@
-# Especifique a imagem base
-FROM node:alpine
+FROM node:21-alpine3.19 as build-stage
 
-# Defina o diretório de trabalho no container
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# Copie os arquivos do projeto para o container
-COPY package*.json ./
-COPY index.js .
+COPY frontend/package*.json ./
 
-# Instale as dependências do projeto (se houver)
 RUN npm install
 
-# Informe a porta que o container deve expor
-EXPOSE 80
+COPY frontend/ .
 
-# Defina o comando para executar o aplicativo
-CMD [ "node", "index.js" ]
+RUN npm run build
+
+FROM nginx:1.25.4-alpine3.18-slim
+
+COPY --from=build-stage /app/build /usr/share/nginx/html
+
+EXPOSE 80
