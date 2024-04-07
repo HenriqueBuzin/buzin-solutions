@@ -12,7 +12,7 @@ COPY index.js .
 RUN npm install
 
 # Informe a porta que o container deve expor
-EXPOSE 3000
+EXPOSE 80
 
 # Defina o comando para executar o aplicativo
 CMD [ "node", "index.js" ]
