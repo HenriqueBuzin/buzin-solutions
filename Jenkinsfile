@@ -17,7 +17,14 @@ pipeline {
             }
         }
 
-       
+        stage('Stop Web Service') {
+            steps {
+                script {
+                    sh "sshpass -p ${REMOTE_PASSWORD} ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} 'cd ${PROJECT_DIR} && docker compose down frontend'"
+                }
+            }
+        }
+
         stage('Docker Compose Build and Up') {
             steps {
                 script {
