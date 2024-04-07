@@ -1,28 +1,16 @@
 pipeline {
     agent any
 
-    triggers {
-        pollSCM('H/5 * * * *') // Polling do SCM a cada 5 minutos
-    }
-
     stages {
         stage('Checkout') {
             steps {
-                checkout scm // Faz checkout do código fonte
+                checkout scm
             }
         }
-        stage('Build and Deploy') {
+        stage('Build and Run') {
             steps {
-                script {
-                    sh 'docker compose up --build -d' // Executa Docker Compose
-                }
+                sh 'docker-compose up --build -d'
             }
-        }
-    }
-
-    post {
-        always {
-            echo 'Pipeline concluído.'
         }
     }
 }
