@@ -16,4 +16,3 @@ EXPOSE 80
 
 # Defina o comando para executar o aplicativo
 CMD [ "node", "index.js" ]
-
