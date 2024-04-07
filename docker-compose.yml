@@ -1,24 +1,6 @@
-version: '3.9'
+version: '3'
 services:
-  backend:
-    container_name: buzin_solutions_python
-    build:
-      context: ./buzin_solutions_python/
-      dockerfile: Dockerfile
-    volumes:
-      - './buzin_solutions_python/src/:/buzin_solutions_python/src/'
+  web:
+    build: .
     ports:
-      - '5000:5000'
-  frontend:
-    container_name: buzin_solutions_react
-    build:
-      context: ./buzin_solutions_react/
-      dockerfile: Dockerfile
-    volumes:
-      - './buzin_solutions_react/:/buzin_solutions_react/'
-      - '/buzin_solutions_react/node_modules'
-    ports:
-      - '3000:3000'
-    environment:
-      - NODE_ENV=development
-      - CHOKIDAR_USEPOLLING=true
+      - "80:3000"
