@@ -35,16 +35,17 @@
   color: white;
   font-size: 2em; /* Adjust size as needed */
   margin-top: 20px; /* Space between logo and tagline */
-  border-right: .15em solid orange; /* The typewriter cursor */
+  border-right: .15em solid orange; /* The typewriter cursor, simulates the final space */
   white-space: nowrap; /* Keeps the content on a single line */
   overflow: hidden; /* Ensures the content is clipped */
   display: inline-block; /* Centers the tagline */
   max-width: 0; /* Start with no visible text */
   animation: 
-    typing 2s steps(22) forwards, /* Typing animation */
+    typing 2s steps(18) forwards, /* Typing animation, 17 characters + 1 for the cursor */
     blinkCaret .75s step-end infinite;
   animation-delay: 3s; /* Start typing after the logo has fully appeared */
 }
+
 
 @keyframes fadeIn {
   from { opacity: 0; }
@@ -58,7 +59,7 @@
 
 @keyframes typing {
   from { max-width: 0; }
-  to { max-width: 23ch; } /* Adjust to the length of the tagline */
+  to { max-width: 18ch; } /* Adjust to the length of the tagline */
 }
 
 @keyframes blinkCaret {

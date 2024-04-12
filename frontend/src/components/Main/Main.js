@@ -8,7 +8,7 @@ const Main = () => (
     <div className="stripe-overlay">
       <div className="content">
         <img src={logo} alt="Logo" className="logo"/>
-        <p className="tagline">O céu é o limite </p>
+        <p className="tagline">O céu é o limite&nbsp;</p>
       </div>
     </div>
   </div>
