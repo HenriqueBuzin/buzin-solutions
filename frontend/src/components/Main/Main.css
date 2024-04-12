@@ -1,0 +1,70 @@
+.main-container {
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stripe-overlay {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7); /* Dark overlay for better text visibility */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  text-align: center;
+}
+
+.logo {
+  width: 400px; /* Adjust the width as necessary */
+  display: block;
+}
+
+.tagline {
+  color: white;
+  font-size: 2em; /* Adjust size as needed */
+  margin-top: 20px; /* Space between logo and tagline */
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes typing {
+  from { max-width: 0; }
+  to { max-width: 23ch; } /* Use the number of characters in your tagline + 1 for the cursor space */
+}
+
+@keyframes blinkCaret {
+  from, to { border-color: transparent; }
+  50% { border-color: orange; }
+}
+
+.logo {
+  animation: fadeIn 2s;
+}
+
+.tagline {
+  color: white;
+  font-size: 2em; /* Adjust size as needed */
+  margin-top: 20px; /* Space between logo and tagline */
+  border-right: .15em solid orange; /* The typewriter cursor */
+  white-space: nowrap; /* Keeps the content on a single line */
+  overflow: hidden; /* Ensures the content is clipped */
+  display: inline-block; /* Centers the tagline */
+  max-width: 0; /* Start with no visible text */
+  animation: 
+    typing 2s steps(22) forwards, /* Use forwards to retain the style after animation */
+    blinkCaret .75s step-end infinite;
+  animation-delay: 1s; /* Start the typing animation after the logo fades in */
+}
+
+
+/* Add your existing styles here */
