@@ -19,36 +19,16 @@
 
 .content {
   text-align: center;
+  opacity: 0; /* Start with content invisible */
+  animation: fadeInContent 2s forwards;
+  animation-delay: 1s; /* Start fading in content after the logo has begun to fade in */
 }
 
 .logo {
   width: 400px; /* Adjust the width as necessary */
+  opacity: 0; /* Start with the logo invisible */
+  animation: fadeIn 2s forwards; /* Fade in the logo */
   display: block;
-}
-
-.tagline {
-  color: white;
-  font-size: 2em; /* Adjust size as needed */
-  margin-top: 20px; /* Space between logo and tagline */
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes typing {
-  from { max-width: 0; }
-  to { max-width: 23ch; } /* Use the number of characters in your tagline + 1 for the cursor space */
-}
-
-@keyframes blinkCaret {
-  from, to { border-color: transparent; }
-  50% { border-color: orange; }
-}
-
-.logo {
-  animation: fadeIn 2s;
 }
 
 .tagline {
@@ -61,10 +41,27 @@
   display: inline-block; /* Centers the tagline */
   max-width: 0; /* Start with no visible text */
   animation: 
-    typing 2s steps(22) forwards, /* Use forwards to retain the style after animation */
+    typing 2s steps(22) forwards, /* Typing animation */
     blinkCaret .75s step-end infinite;
-  animation-delay: 1s; /* Start the typing animation after the logo fades in */
+  animation-delay: 3s; /* Start typing after the logo has fully appeared */
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
-/* Add your existing styles here */
+@keyframes fadeInContent {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes typing {
+  from { max-width: 0; }
+  to { max-width: 23ch; } /* Adjust to the length of the tagline */
+}
+
+@keyframes blinkCaret {
+  from, to { border-color: transparent; }
+  50% { border-color: orange; }
+}
