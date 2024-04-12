@@ -1,6 +1,6 @@
 .main-container {
   width: 100%;
-  height: 100vh; /* Full viewport height */
+  height: 100vh;
   background-size: cover;
   background-position: center;
   display: flex;
@@ -11,7 +11,7 @@
 .stripe-overlay {
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7); /* Dark overlay for better text visibility */
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,50 +19,72 @@
 
 .content {
   text-align: center;
-  opacity: 0; /* Start with content invisible */
+  opacity: 0;
   animation: fadeInContent 2s forwards;
-  animation-delay: 1s; /* Start fading in content after the logo has begun to fade in */
+  animation-delay: 1s;
 }
 
 .logo {
-  width: 400px; /* Adjust the width as necessary */
-  opacity: 0; /* Start with the logo invisible */
-  animation: fadeIn 2s forwards; /* Fade in the logo */
+  width: auto;
+  opacity: 0;
+  animation: fadeIn 2s forwards;
   display: block;
 }
 
 .tagline {
   color: white;
-  font-size: 2em; /* Adjust size as needed */
-  margin-top: 20px; /* Space between logo and tagline */
-  border-right: .15em solid orange; /* The typewriter cursor, simulates the final space */
-  white-space: nowrap; /* Keeps the content on a single line */
-  overflow: hidden; /* Ensures the content is clipped */
-  display: inline-block; /* Centers the tagline */
-  max-width: 0; /* Start with no visible text */
-  animation: 
-    typing 2s steps(18) forwards, /* Typing animation, 17 characters + 1 for the cursor */
+  font-size: 2em;
+  margin-top: 20px;
+  border-right: .15em solid orange;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  max-width: 0;
+  animation:
+    typing 2s steps(18) forwards,
     blinkCaret .75s step-end infinite;
-  animation-delay: 3s; /* Start typing after the logo has fully appeared */
+  animation-delay: 3s;
 }
 
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeInContent {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes typing {
-  from { max-width: 0; }
-  to { max-width: 18ch; } /* Adjust to the length of the tagline */
+  from {
+    max-width: 0;
+  }
+
+  to {
+    max-width: 18ch;
+  }
 }
 
 @keyframes blinkCaret {
-  from, to { border-color: transparent; }
-  50% { border-color: orange; }
+
+  from,
+  to {
+    border-color: transparent;
+  }
+
+  50% {
+    border-color: orange;
+  }
 }
