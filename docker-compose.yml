@@ -2,7 +2,14 @@ version: '3.9'
 services:
   frontend:
     build: .
+    environment:
+      - ENV=development  # ou 'production'
     ports:
       - "80:80"
+      - "443:443"
     restart: unless-stopped
     container_name: frontend
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+      - ./nginx/options-ssl-nginx.conf:/etc/letsencrypt/options-ssl-nginx.conf
