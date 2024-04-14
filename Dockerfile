@@ -13,7 +13,12 @@ RUN mkdir -p /etc/nginx/certs /var/www/html
 
 COPY --from=build-stage /app/build /usr/share/nginx/html
 
+COPY nginx/nginx.conf.production /etc/nginx/nginx.conf.production
+
+COPY nginx/nginx.conf.develop /etc/nginx/nginx.conf.develop
+
 COPY entrypoint.sh /entrypoint.sh
+
 RUN chmod +x /entrypoint.sh
 
 EXPOSE 80 443
