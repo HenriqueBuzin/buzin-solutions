@@ -3,7 +3,7 @@ services:
   frontend:
     build: .
     environment:
-      - ENV=development
+      - ENV=production
     ports:
       - "80:80"
       - "443:443"

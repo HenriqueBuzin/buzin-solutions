@@ -28,7 +28,7 @@ pipeline {
         stage('Docker Compose Build and Up') {
             steps {
                 script {
-                    sh "sshpass -p ${REMOTE_PASSWORD} ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} 'cd ${PROJECT_DIR} && docker compose up -d --build'"
+                    sh "sshpass -p ${REMOTE_PASSWORD} ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} 'cd ${PROJECT_DIR} && docker compose -f docker-compose-prod.yml up -d --build'"
                 }
             }
         }
