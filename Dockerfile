@@ -13,6 +13,8 @@ RUN mkdir -p /etc/nginx/certs /var/www/html
 
 COPY --from=build-stage /app/build /usr/share/nginx/html
 
+COPY nginx/options-ssl-nginx.conf /etc/letsencrypt/options-ssl-nginx.conf
+
 COPY nginx/nginx.conf.production /etc/nginx/nginx.conf.production
 
 COPY nginx/nginx.conf.develop /etc/nginx/nginx.conf.develop
