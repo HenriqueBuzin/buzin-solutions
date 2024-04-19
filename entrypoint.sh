@@ -22,8 +22,10 @@ else
     cp /etc/nginx/nginx.conf.develop /etc/nginx/nginx.conf
 fi
 
+# Executa o nginx em primeiro plano
 nginx -g 'daemon off;' &
 
+# Loop de renovação
 while :; do
     echo "Aguardando o próximo ciclo de renovação..."
     sleep 12h
