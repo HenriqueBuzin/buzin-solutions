@@ -16,7 +16,7 @@ RUN apk add --no-cache openssl certbot certbot-nginx
 
 RUN mkdir -p /etc/nginx/certs /var/www/html
 
-COPY --from=build-stage /app/build /usr/share/nginx/html
+COPY --from=build-stage /app/dist /usr/share/nginx/html
 
 COPY nginx/options-ssl-nginx.conf /etc/letsencrypt/options-ssl-nginx.conf
 
