@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
 import Background from './components/Background/Background.jsx';
+import React, { useEffect } from 'react';
 import './App.css';
 
 function App() {
