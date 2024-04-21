@@ -6,6 +6,7 @@ services:
       dockerfile: Dockerfile
     environment:
       - ENV=development
+      - VITE_REACT_APP_LANGUAGE=pt-BR # Disponíveis: pt-BR, it, en-US.
     ports:
       - "80:80"
     restart: unless-stopped
