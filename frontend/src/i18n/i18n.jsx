@@ -23,6 +23,9 @@ if (environmentLanguage) {
 
 console.log("Language set to:", language);
 
+
+console.log("Hostname set to:", hostname);
+
 i18n
   .use(initReactI18next)
   .use(HttpBackend)
