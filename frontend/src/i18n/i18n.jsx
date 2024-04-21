@@ -1,8 +1,9 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import HttpBackend from 'i18next-http-backend';
+import translationEN from './locales/en-US.json';
+import translationPTBR from './locales/pt-BR.json';
+import translationIT from './locales/it.json';
 
-// Ajuste para usar import.meta.env se estiver usando Vite
 const environmentLanguage = import.meta.env.VITE_REACT_APP_LANGUAGE;
 const hostname = window.location.hostname;
 let language;
@@ -22,21 +23,26 @@ if (environmentLanguage) {
 }
 
 console.log("Language set to:", language);
-
-
 console.log("Hostname set to:", hostname);
 
 i18n
-  .use(initReactI18next)
-  .use(HttpBackend)
+  .use(initReactI18next) // passa o i18n para o react-i18next
   .init({
-    lng: language,
-    fallbackLng: "en-US",
-    backend: {
-      loadPath: '/locales/{{lng}}.json'
+    resources: {
+      en: {
+        translation: translationEN
+      },
+      'pt-BR': {
+        translation: translationPTBR
+      },
+      it: {
+        translation: translationIT
+      }
     },
+    lng: language, // idioma padrão ao carregar a aplicação
+    fallbackLng: 'en-US', // idioma de fallback
     interpolation: {
-      escapeValue: false
+      escapeValue: false // não escapa valores usados em traduções
     },
     react: {
       useSuspense: false
