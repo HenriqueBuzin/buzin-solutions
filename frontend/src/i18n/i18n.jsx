@@ -33,7 +33,7 @@ i18n
     lng: language,
     fallbackLng: "en-US",
     backend: {
-      loadPath: '/src/i18n/locales/{{lng}}.json'
+      loadPath: '/locales/{{lng}}.json'
     },
     interpolation: {
       escapeValue: false
