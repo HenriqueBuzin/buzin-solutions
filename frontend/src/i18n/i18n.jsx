@@ -18,15 +18,12 @@ if (environmentLanguage) {
   } else if (hostname.endsWith('.it')) {
     language = 'it';
   } else {
-    language = 'en-US'; // Default for other cases
+    language = 'en-US';
   }
 }
 
-console.log("Language set to:", language);
-console.log("Hostname set to:", hostname);
-
 i18n
-  .use(initReactI18next) // passa o i18n para o react-i18next
+  .use(initReactI18next)
   .init({
     resources: {
       en: {
@@ -39,10 +36,10 @@ i18n
         translation: translationIT
       }
     },
-    lng: language, // idioma padrão ao carregar a aplicação
-    fallbackLng: 'en-US', // idioma de fallback
+    lng: language,
+    fallbackLng: 'en-US',
     interpolation: {
-      escapeValue: false // não escapa valores usados em traduções
+      escapeValue: false
     },
     react: {
       useSuspense: false
