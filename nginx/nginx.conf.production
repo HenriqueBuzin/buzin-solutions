@@ -1,9 +1,7 @@
 user nginx;
 worker_processes auto;
 
-events {
-    worker_connections 1024;
-}
+events { worker_connections 1024; }
 
 http {
     include /etc/nginx/mime.types;
@@ -12,10 +10,10 @@ http {
     sendfile on;
     keepalive_timeout 65;
 
-    # Redirecionamento HTTP para HTTPS para todos os domínios
+    # Redireciona tudo de HTTP para HTTPS e serve challenge
     server {
-        listen 80;
-        server_name buzinsolutions.com www.buzinsolutions.com buzinsolutions.com.br www.buzinsolutions.com.br buzinsolutions.it www.buzinsolutions.it;
+        listen 80 default_server;
+        server_name _;
 
         location /.well-known/acme-challenge/ {
             root /var/www/certbot;
@@ -26,7 +24,7 @@ http {
         }
     }
 
-    # HTTPS - buzinsolutions.com
+    # HTTPS para .com / www
     server {
         listen 443 ssl;
         server_name buzinsolutions.com www.buzinsolutions.com;
@@ -44,7 +42,7 @@ http {
         }
     }
 
-    # HTTPS - buzinsolutions.com.br
+    # HTTPS para .com.br / www
     server {
         listen 443 ssl;
         server_name buzinsolutions.com.br www.buzinsolutions.com.br;
@@ -62,7 +60,7 @@ http {
         }
     }
 
-    # HTTPS - buzinsolutions.it
+    # HTTPS para .it / www
     server {
         listen 443 ssl;
         server_name buzinsolutions.it www.buzinsolutions.it;
