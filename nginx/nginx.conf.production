@@ -12,19 +12,13 @@ http {
     sendfile on;
     keepalive_timeout 65;
 
-    upstream app {
-        server app:5000;
-    }
-
-    # Redirecionamento HTTP -> HTTPS para todos
+    # Redirecionamento HTTP para HTTPS para todos os domínios
     server {
         listen 80;
-        server_name buzinsolutions.com www.buzinsolutions.com \
-                    buzinsolutions.com.br www.buzinsolutions.com.br \
-                    buzinsolutions.it www.buzinsolutions.it;
+        server_name buzinsolutions.com www.buzinsolutions.com buzinsolutions.com.br www.buzinsolutions.com.br buzinsolutions.it www.buzinsolutions.it;
 
         location /.well-known/acme-challenge/ {
-            root /var/www/html;
+            root /var/www/certbot;
         }
 
         location / {
@@ -32,7 +26,7 @@ http {
         }
     }
 
-    # HTTPS buzinsolutions.com
+    # HTTPS - buzinsolutions.com
     server {
         listen 443 ssl;
         server_name buzinsolutions.com www.buzinsolutions.com;
@@ -42,14 +36,15 @@ http {
         include /etc/letsencrypt/options-ssl-nginx.conf;
         ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
+        root /usr/share/nginx/html;
+        index index.html index.htm;
+
         location / {
-            proxy_pass http://app;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
+            try_files $uri $uri/ =404;
         }
     }
 
-    # HTTPS buzinsolutions.com.br
+    # HTTPS - buzinsolutions.com.br
     server {
         listen 443 ssl;
         server_name buzinsolutions.com.br www.buzinsolutions.com.br;
@@ -59,14 +54,15 @@ http {
         include /etc/letsencrypt/options-ssl-nginx.conf;
         ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
+        root /usr/share/nginx/html;
+        index index.html index.htm;
+
         location / {
-            proxy_pass http://app;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
+            try_files $uri $uri/ =404;
         }
     }
 
-    # HTTPS buzinsolutions.it
+    # HTTPS - buzinsolutions.it
     server {
         listen 443 ssl;
         server_name buzinsolutions.it www.buzinsolutions.it;
@@ -76,10 +72,11 @@ http {
         include /etc/letsencrypt/options-ssl-nginx.conf;
         ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
+        root /usr/share/nginx/html;
+        index index.html index.htm;
+
         location / {
-            proxy_pass http://app;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
+            try_files $uri $uri/ =404;
         }
     }
 }
