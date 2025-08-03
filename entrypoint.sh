@@ -2,7 +2,7 @@
 
 obtain_or_renew_certificates() {
     echo "Verificando e obtendo certificados Let's Encrypt para produção..."
-    for domain in buzinsolutions.com buzinsolutions.com.br; do
+    for domain in buzinsolutions.com buzinsolutions.com.br buzinsolutions.it; do
         if [ ! -f "/etc/letsencrypt/live/$domain/fullchain.pem" ]; then
             certbot certonly --nginx --non-interactive --agree-tos --email henrique.buzin@buzinsolutions.com -d $domain --keep-until-expiring
         else

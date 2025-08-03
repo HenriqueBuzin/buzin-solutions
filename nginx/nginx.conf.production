@@ -1,26 +1,24 @@
 user nginx;
-worker_processes 1;
-
+worker_processes auto;
 events {
     worker_connections 1024;
 }
 
 http {
-    include /etc/nginx/mime.types;
-    default_type application/octet-stream;
+    include       mime.types;
+    default_type  application/octet-stream;
 
-    sendfile on;
+    sendfile        on;
     keepalive_timeout 65;
 
-    server {
-        listen 80;
-        server_name buzinsolutions.com www.buzinsolutions.com buzinsolutions.com.br www.buzinsolutions.com.br;
-        return 301 https://$host$request_uri;
+    upstream app {
+        server app:5000;
     }
 
+    # HTTPS - buzinsolutions.com
     server {
         listen 443 ssl;
-        server_name buzinsolutions.com www.buzinsolutions.com;
+        server_name buzinsolutions.com;
 
         ssl_certificate /etc/letsencrypt/live/buzinsolutions.com/fullchain.pem;
         ssl_certificate_key /etc/letsencrypt/live/buzinsolutions.com/privkey.pem;
@@ -28,14 +26,30 @@ http {
         ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
         location / {
-            root /usr/share/nginx/html;
-            index index.html index.htm;
+            proxy_pass http://app;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
         }
     }
 
+    # Redirect HTTP -> HTTPS - buzinsolutions.com
+    server {
+        listen 80;
+        server_name buzinsolutions.com;
+
+        location /.well-known/acme-challenge/ {
+            root /var/www/html;
+        }
+
+        location / {
+            return 301 https://$host$request_uri;
+        }
+    }
+
+    # HTTPS - buzinsolutions.com.br
     server {
         listen 443 ssl;
-        server_name buzinsolutions.com.br www.buzinsolutions.com.br;
+        server_name buzinsolutions.com.br;
 
         ssl_certificate /etc/letsencrypt/live/buzinsolutions.com.br/fullchain.pem;
         ssl_certificate_key /etc/letsencrypt/live/buzinsolutions.com.br/privkey.pem;
@@ -43,8 +57,55 @@ http {
         ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
         location / {
-            root /usr/share/nginx/html;
-            index index.html index.htm;
+            proxy_pass http://app;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
         }
     }
+
+    # Redirect HTTP -> HTTPS - buzinsolutions.com.br
+    server {
+        listen 80;
+        server_name buzinsolutions.com.br;
+
+        location /.well-known/acme-challenge/ {
+            root /var/www/html;
+        }
+
+        location / {
+            return 301 https://$host$request_uri;
+        }
+    }
+
+    # HTTPS - buzinsolutions.it
+    server {
+        listen 443 ssl;
+        server_name buzinsolutions.it;
+
+        ssl_certificate /etc/letsencrypt/live/buzinsolutions.it/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/buzinsolutions.it/privkey.pem;
+        include /etc/letsencrypt/options-ssl-nginx.conf;
+        ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+        location / {
+            proxy_pass http://app;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+        }
+    }
+
+    # Redirect HTTP -> HTTPS - buzinsolutions.it
+    server {
+        listen 80;
+        server_name buzinsolutions.it;
+
+        location /.well-known/acme-challenge/ {
+            root /var/www/html;
+        }
+
+        location / {
+            return 301 https://$host$request_uri;
+        }
+    }
+
 }
