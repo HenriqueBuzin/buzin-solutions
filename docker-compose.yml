@@ -1,6 +1,6 @@
-version: '3.9'
 services:
-  frontend:
+  frontend-dev:
+    profiles: ["dev"]
     build:
       context: .
       dockerfile: Dockerfile
@@ -8,9 +8,27 @@ services:
       - ENV=development
       - VITE_REACT_APP_LANGUAGE=pt-BR # Disponíveis: pt-BR, it, en-US.
     ports:
-      - "80:80"
-    restart: unless-stopped
-    container_name: frontend
+      - "3000:3000"
     volumes:
       - ./frontend:/app
       - /app/node_modules
+    container_name: frontend-dev
+    restart: unless-stopped
+
+  frontend:
+    profiles: ["prod"]
+    build:
+      context: .
+      dockerfile: Dockerfile-prod
+    environment:
+      - ENV=production
+    ports:
+      - "127.0.0.1:3000:80"
+    container_name: frontend
+    restart: unless-stopped
+    networks:
+      - proxy-network
+
+networks:
+  proxy-network:
+    external: true
