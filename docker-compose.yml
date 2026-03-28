@@ -3,12 +3,12 @@ services:
     profiles: ["dev"]
     build:
       context: .
-      dockerfile: Dockerfile
+      target: dev
     environment:
       - ENV=development
       - VITE_REACT_APP_LANGUAGE=pt-BR # Disponíveis: pt-BR, it, en-US.
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3001:80"
     volumes:
       - ./frontend:/app
       - /app/node_modules
@@ -19,12 +19,12 @@ services:
     profiles: ["prod"]
     build:
       context: .
-      dockerfile: Dockerfile-prod
+      target: prod
     environment:
       - ENV=production
     ports:
       - "127.0.0.1:3000:80"
-    container_name: frontend
+    container_name: frontend-prod
     restart: unless-stopped
     networks:
       - proxy-network
