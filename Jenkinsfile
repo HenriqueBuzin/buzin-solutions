@@ -9,10 +9,17 @@ pipeline {
     }
 
     stages {
+
         stage('Update Git Repository') {
             steps {
                 script {
-                    sh "sshpass -p ${REMOTE_PASSWORD} ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} 'cd ${PROJECT_DIR} && git pull'"
+                    sh """
+                        sshpass -p ${REMOTE_PASSWORD} ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} '
+                            cd ${PROJECT_DIR} &&
+                            git reset --hard &&
+                            git pull
+                        '
+                    """
                 }
             }
         }
@@ -20,7 +27,12 @@ pipeline {
         stage('Stop Web Service') {
             steps {
                 script {
-                    sh "sshpass -p ${REMOTE_PASSWORD} ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} 'cd ${PROJECT_DIR} && docker compose down frontend'"
+                    sh """
+                        sshpass -p ${REMOTE_PASSWORD} ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} '
+                            cd ${PROJECT_DIR} &&
+                            docker compose --profile prod down
+                        '
+                    """
                 }
             }
         }
@@ -28,9 +40,15 @@ pipeline {
         stage('Docker Compose Build and Up') {
             steps {
                 script {
-                    sh "sshpass -p ${REMOTE_PASSWORD} ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} 'cd ${PROJECT_DIR} && docker compose -f docker-compose-prod.yml up -d --build'"
+                    sh """
+                        sshpass -p ${REMOTE_PASSWORD} ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} '
+                            cd ${PROJECT_DIR} &&
+                            docker compose --profile prod up -d --build
+                        '
+                    """
                 }
             }
         }
+
     }
 }
