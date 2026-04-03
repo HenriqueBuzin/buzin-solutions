@@ -8,7 +8,7 @@ RUN npm ci
 
 COPY frontend/ .
 
-CMD ["npm", "run", "dev", "--", "--host"]
+CMD ["npm", "run", "dev"]
 
 # ===== BUILD =====
 FROM node:21-alpine3.19 as build
