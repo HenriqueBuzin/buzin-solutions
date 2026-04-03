@@ -4,7 +4,7 @@ FROM node:21-alpine3.19 as dev
 WORKDIR /app
 
 COPY frontend/package*.json ./
-RUN npm install
+RUN npm ci
 
 COPY frontend/ .
 
@@ -16,7 +16,7 @@ FROM node:21-alpine3.19 as build
 WORKDIR /app
 
 COPY frontend/package*.json ./
-RUN npm install
+RUN npm ci
 
 COPY frontend/ .
 RUN npm run build
