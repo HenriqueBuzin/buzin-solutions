@@ -5,16 +5,16 @@ export default defineConfig({
     base: "/",
     plugins: [react()],
     preview: {
-        port: 80,
+        port: 3000,
         strictPort: true,
     },
     server: {
         watch: {
             usePolling: true
         },
-        port: 80,
+        port: 3001,
         strictPort: true,
         host: true,
-        origin: "http://localhost:80",
+        origin: "http://localhost:3001",
     },
 });
