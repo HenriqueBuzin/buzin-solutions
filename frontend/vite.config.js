@@ -18,5 +18,3 @@ export default defineConfig({
         origin: "http://localhost:3001",
     },
 });
-
-// V
