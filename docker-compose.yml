@@ -8,7 +8,7 @@ services:
       - ENV=development
       - VITE_REACT_APP_LANGUAGE=pt-BR # Disponíveis: pt-BR, it, en-US.
     ports:
-      - "127.0.0.1:3001:80"
+      - "127.0.0.1:3001:3001"
     volumes:
       - ./frontend:/app
       - /app/node_modules
@@ -23,7 +23,7 @@ services:
     environment:
       - ENV=production
     ports:
-      - "127.0.0.1:3000:80"
+      - "127.0.0.1:3000:3000"
     container_name: frontend-prod
     restart: unless-stopped
     networks:
