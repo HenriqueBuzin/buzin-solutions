@@ -4,12 +4,11 @@ FROM node:21-alpine3.19 as dev
 WORKDIR /app
 
 COPY frontend/package*.json ./
-RUN npm install
+RUN npm ci
 
 COPY frontend/ .
 
-CMD ["npm", "run", "dev"]
-
+CMD ["npm", "run", "dev", "--", "--host"]
 
 # ===== BUILD =====
 FROM node:21-alpine3.19 as build
@@ -17,11 +16,10 @@ FROM node:21-alpine3.19 as build
 WORKDIR /app
 
 COPY frontend/package*.json ./
-RUN npm install
+RUN npm ci
 
 COPY frontend/ .
 RUN npm run build
-
 
 # ===== PROD =====
 FROM nginx:1.25-alpine as prod
