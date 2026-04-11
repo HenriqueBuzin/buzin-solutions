@@ -6,7 +6,7 @@ import './App.css';
 
 function App() {
   useEffect(() => {
-    document.title = "Buzin S";
+    document.title = "Buzin Solutions";
   }, []);
 
   return (
