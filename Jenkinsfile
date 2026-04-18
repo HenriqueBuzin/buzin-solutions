@@ -7,24 +7,37 @@ pipeline {
             steps {
                 script {
 
-                    def branch = env.BRANCH_NAME
+                    def branch = env.GIT_BRANCH.replace("origin/", "")
+                    def project = "buzin-solutions"
+
+                    echo "Branch: ${branch}"
 
                     if (branch == 'main') {
-                        sh '''
-                        cd /root/buzin-solutions
-                        git reset --hard
-                        git pull origin main
+                        sh """
+                        cd /root/projects/${project}
+
+                        git fetch origin
+                        git reset --hard origin/main
+                        git clean -fd
+
+                        ln -sf /root/envs/${project}.env .env
+
                         docker compose --profile prod up -d --build
-                        '''
+                        """
                     }
 
                     else if (branch == 'dev') {
-                        sh '''
-                        cd /root/buzin-solutions-dev
-                        git reset --hard
-                        git pull origin dev
+                        sh """
+                        cd /root/projects/${project}-dev
+
+                        git fetch origin
+                        git reset --hard origin/dev
+                        git clean -fd
+
+                        ln -sf /root/envs/${project}-dev.env .env
+
                         docker compose --profile dev up -d --build
-                        '''
+                        """
                     }
 
                     else {
