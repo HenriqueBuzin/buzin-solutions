@@ -12,9 +12,9 @@ export default defineConfig({
         watch: {
             usePolling: true
         },
-        port: 3001,
+        port: 3004,
         strictPort: true,
         host: true,
-        origin: "http://localhost:3001",
+        origin: "http://localhost:3004",
     },
 });
