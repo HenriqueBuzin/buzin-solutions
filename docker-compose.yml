@@ -2,7 +2,6 @@ services:
 
   buzin-solutions-front:
     profiles: ["prod"]
-    container_name: buzin-solutions-front-dev
     restart: unless-stopped
     build:
       context: .
@@ -16,7 +15,6 @@ services:
 
   buzin-solutions-front-dev:
     profiles: ["dev"]
-    container_name: buzin-solutions-front
     restart: unless-stopped
     build:
       context: .
