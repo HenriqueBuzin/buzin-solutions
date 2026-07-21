@@ -27,7 +27,7 @@ pipeline {
                         git clean -fd
 
                         echo "🔗 Aplicando .env..."
-                        ln -sf /root/envs/${project}.env .env
+                        ln -sf /root/projects/envs/${project}.env .env
 
                         echo "🛑 Derrubando containers antigos..."
                         docker compose --profile prod down || true
@@ -49,7 +49,7 @@ pipeline {
                         git clean -fd
 
                         echo "🔗 Aplicando .env..."
-                        ln -sf /root/envs/${project}-dev.env .env
+                        ln -sf /root/projects/envs/${project}-dev.env .env
 
                         echo "🛑 Derrubando containers antigos..."
                         docker compose --profile dev down || true
