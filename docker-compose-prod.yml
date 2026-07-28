@@ -1,8 +1,8 @@
-name: buzin-solutions-dev
+name: buzin-solutions
 
 x-labels: &default-labels
   infra.project: buzin-solutions
-  infra.environment: development
+  infra.environment: production
   infra.version: ${IMAGE_TAG:-local}
 
 x-logging: &default-logging
@@ -13,24 +13,22 @@ x-logging: &default-logging
 
 services:
   backend:
-    image: buzin-solutions/backend:${IMAGE_TAG:-local}-dev
+    image: buzin-solutions/backend:${IMAGE_TAG:-local}
     labels: *default-labels
     build:
       context: ./backend
-      target: dev
+      target: prod
     restart: unless-stopped
     init: true
     stop_grace_period: 30s
     env_file:
       - .env
     environment:
-      ENV: ${ENV:-development}
-      SWAGGER_ENABLED: "true"
+      ENV: ${ENV:-production}
+      SWAGGER_ENABLED: "false"
       TZ: America/Sao_Paulo
     ports:
-      - "${BACKEND_PORT:-8004}:8000"
-    volumes:
-      - ./backend:/app
+      - "${BACKEND_PORT:-8000}:8000"
     security_opt:
       - no-new-privileges:true
     healthcheck:
@@ -48,46 +46,37 @@ services:
       - proxy-network
 
   frontend:
-    image: buzin-solutions/frontend:${IMAGE_TAG:-local}-dev
+    image: buzin-solutions/frontend:${IMAGE_TAG:-local}
     labels: *default-labels
     build:
       context: ./frontend
-      target: dev
+      target: prod
+      args:
+        VITE_REACT_APP_LANGUAGE: ${VITE_REACT_APP_LANGUAGE:-pt-BR}
     restart: unless-stopped
     init: true
     stop_grace_period: 30s
     env_file:
       - .env
     environment:
-      ENV: ${ENV:-development}
-      VITE_REACT_APP_LANGUAGE: ${VITE_REACT_APP_LANGUAGE:-pt-BR}
+      ENV: ${ENV:-production}
       TZ: America/Sao_Paulo
     depends_on:
       backend:
         condition: service_healthy
     ports:
-      - "${FRONTEND_PORT:-3004}:3004"
-    volumes:
-      - ./frontend:/app
-      - frontend_node_modules:/app/node_modules
+      - "${FRONTEND_PORT:-3000}:3000"
     security_opt:
       - no-new-privileges:true
     healthcheck:
-      test:
-        - CMD
-        - node
-        - -e
-        - fetch('http://127.0.0.1:3004/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:3000/health"]
       interval: 10s
       timeout: 5s
       retries: 12
-      start_period: 10s
+      start_period: 5s
     logging: *default-logging
     networks:
       - proxy-network
-
-volumes:
-  frontend_node_modules:
 
 networks:
   proxy-network:

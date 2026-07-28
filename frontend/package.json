@@ -3,26 +3,50 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "packageManager": "npm@11.16.0",
+  "engines": {
+    "node": "24.18.0",
+    "npm": "11.16.0"
+  },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "build": "tsc --noEmit && vite build",
+    "lint": "eslint src e2e scripts eslint.config.js playwright.config.ts vite.config.ts --max-warnings 0",
+    "test": "vitest run",
+    "test:unit": "vitest run src/i18n/i18n.unit.test.ts",
+    "test:integration": "vitest run src/App.integration.test.tsx",
+    "test:regression": "vitest run src/main.regression.test.tsx",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:e2e": "node scripts/run-e2e.mjs",
+    "coverage": "vitest run --coverage",
+    "verify": "npm run lint && npm run coverage && npm run build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "i18next": "^23.11.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-i18next": "^14.1.0"
+    "i18next": "26.3.6",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "react-i18next": "17.0.11"
   },
   "devDependencies": {
-    "@types/react": "^18.2.66",
-    "@types/react-dom": "^18.2.22",
-    "@vitejs/plugin-react": "^4.2.1",
-    "eslint": "^8.57.0",
-    "eslint-plugin-react": "^7.34.1",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.6",
-    "vite": "^5.2.0"
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.62.0",
+    "@testing-library/jest-dom": "7.0.0",
+    "@testing-library/react": "16.3.2",
+    "@testing-library/user-event": "14.6.1",
+    "@types/node": "24.13.3",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "@typescript-eslint/parser": "8.65.0",
+    "@vitejs/plugin-react": "6.0.4",
+    "@vitest/coverage-v8": "4.1.10",
+    "eslint": "10.8.0",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "eslint-plugin-react-refresh": "0.5.3",
+    "globals": "17.8.0",
+    "jsdom": "30.0.0",
+    "typescript": "6.0.3",
+    "vite": "8.1.5",
+    "vitest": "4.1.10"
   }
 }

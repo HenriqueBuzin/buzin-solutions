@@ -1,0 +1,62 @@
+name: Quality
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install
+        working-directory: frontend
+        run: npm ci
+
+      - name: Verify
+        working-directory: frontend
+        run: npm run verify
+
+      - name: Verify backend
+        run: docker build --file backend/Dockerfile --target verify --tag buzin-solutions/backend:verify backend
+
+      - name: Install Playwright browser
+        working-directory: frontend
+        run: npx playwright install --with-deps chromium
+
+      - name: End-to-end
+        working-directory: frontend
+        env:
+          E2E_PLATFORM_COMMAND: ${{ vars.E2E_PLATFORM_COMMAND }}
+        run: npm run test:e2e
+
+      - name: Validate Compose
+        run: |
+          cp .env.example .env
+          IMAGE_TAG=ci COMPOSE_PROJECT_NAME=buzin-solutions-dev docker compose -f docker-compose.yml config --quiet
+          IMAGE_TAG=ci COMPOSE_PROJECT_NAME=buzin-solutions docker compose -f docker-compose-prod.yml config --quiet
+
+      - name: Build production image
+        run: |
+          docker build --file frontend/Dockerfile --target prod --tag buzin-solutions/frontend:ci frontend
+          docker build --file backend/Dockerfile --target prod --tag buzin-solutions/backend:ci backend
