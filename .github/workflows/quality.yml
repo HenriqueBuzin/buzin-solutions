@@ -50,13 +50,16 @@ jobs:
           E2E_PLATFORM_COMMAND: ${{ vars.E2E_PLATFORM_COMMAND }}
         run: npm run test:e2e
 
-      - name: Validate Compose
+      - name: Compose
         run: |
           cp .env.example .env
           IMAGE_TAG=ci COMPOSE_PROJECT_NAME=buzin-solutions-dev docker compose -f docker-compose.yml config --quiet
           IMAGE_TAG=ci COMPOSE_PROJECT_NAME=buzin-solutions docker compose -f docker-compose-prod.yml config --quiet
 
-      - name: Build production image
+      - name: Container
         run: |
           docker build --file frontend/Dockerfile --target prod --tag buzin-solutions/frontend:ci frontend
           docker build --file backend/Dockerfile --target prod --tag buzin-solutions/backend:ci backend
+
+      - name: Deploy
+        run: echo "Deploy autorizado apenas pelo Jenkins em main/dev."
