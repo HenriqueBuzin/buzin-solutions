@@ -61,5 +61,13 @@ jobs:
           docker build --file frontend/Dockerfile --target prod --tag buzin-solutions/frontend:ci frontend
           docker build --file backend/Dockerfile --target prod --tag buzin-solutions/backend:ci backend
 
+      - name: Scan container
+        uses: anchore/scan-action@e1165082ffb1fe366ebaf02d8526e7c4989ea9d2 # v7.4.0
+        with:
+          image: buzin-solutions/backend:ci
+          fail-build: true
+          severity-cutoff: high
+          only-fixed: true
+
       - name: Deploy
         run: echo "Deploy autorizado apenas pelo Jenkins em main/dev."
