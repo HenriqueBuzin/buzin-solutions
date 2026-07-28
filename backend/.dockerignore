@@ -1,12 +1,7 @@
-.DS_Store
-node_modules
-.env
-dist
-coverage
 .coverage
 .mypy_cache
 .pytest_cache
 .ruff_cache
 .venv
 __pycache__
-test-results
+htmlcov
