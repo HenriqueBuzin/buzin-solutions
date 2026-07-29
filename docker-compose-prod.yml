@@ -76,7 +76,9 @@ services:
       start_period: 5s
     logging: *default-logging
     networks:
-      - proxy-network
+      proxy-network:
+        aliases:
+          - buzin-solutions
 
 networks:
   proxy-network:
