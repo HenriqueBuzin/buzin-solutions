@@ -66,6 +66,7 @@ pipeline {
                         image_tag=\$(git rev-parse --short=12 HEAD)
                         docker build --file frontend/Dockerfile --target ${target} --tag buzin-solutions/frontend:\${image_tag}${suffix} frontend
                         docker build --file backend/Dockerfile --target ${target} --tag buzin-solutions/backend:\${image_tag}${suffix} backend
+                        docker build --file frontend/Dockerfile.e2e --tag buzin-solutions/e2e:\${image_tag}${suffix} frontend
                     """
                 }
             }
@@ -96,6 +97,7 @@ pipeline {
                         test -f "\${env_file}"
                         docker image inspect "${project}/frontend:\${image_tag}${suffix}" >/dev/null
                         docker image inspect "${project}/backend:\${image_tag}${suffix}" >/dev/null
+                        docker image inspect "${project}/e2e:\${image_tag}${suffix}" >/dev/null
 
                         mkdir -p "\${target}"
                         find "\${target}" -mindepth 1 -maxdepth 1 \
@@ -126,11 +128,7 @@ pipeline {
                           -e CI=true \
                           -e E2E_PLATFORM_COMMAND \
                           -e E2E_BASE_URL="http://127.0.0.1:${e2ePort}" \
-                          -v "\${workspace}/frontend:/work" \
-                          -v /work/node_modules \
-                          -w /work \
-                          mcr.microsoft.com/playwright:v1.62.0-noble \
-                          bash -lc 'npm ci && npm run test:e2e'
+                          "${project}/e2e:\${image_tag}${suffix}"
                     """
                 }
             }
