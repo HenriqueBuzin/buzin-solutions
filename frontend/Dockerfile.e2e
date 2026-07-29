@@ -1,0 +1,14 @@
+# syntax=docker/dockerfile:1.7
+
+FROM mcr.microsoft.com/playwright:v1.62.0-noble
+
+WORKDIR /work
+
+COPY package.json package-lock.json ./
+RUN npm ci --no-audit --no-fund
+
+COPY . ./
+
+ENV CI=true
+
+CMD ["npm", "run", "test:e2e"]
