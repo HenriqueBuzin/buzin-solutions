@@ -59,7 +59,7 @@ ambiente.
 
 Fixar versões exatas e atualizar lockfiles no mesmo commit.
 
-- Node.js 24.18.0 LTS e npm 11.16.0, bloqueados por `engines`,
+- Node.js 24.18.1 LTS e npm 11.16.0, bloqueados por `engines`,
   `packageManager`, `.nvmrc` e `engine-strict=true`.
 - React/React DOM 19.2.8, TypeScript 6.0.3, Vite 8.1.5, Vitest 4.1.10 e
   Playwright 1.62.0.
