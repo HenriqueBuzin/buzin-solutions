@@ -7,7 +7,7 @@ ambiente de desenvolvimento.
 
 ## Tecnologias
 
-- Node.js 24.18.0 LTS, npm 11.16.0, React 19 e TypeScript 6.
+- Node.js 24.18.1 LTS, npm 11.16.0, React 19 e TypeScript 6.
 - Python 3.14.6, Poetry 2.4.1, Flask 3.1 e Gunicorn 26.
 - Vite 8 no desenvolvimento e Caddy 2.11 em produção.
 - Vitest, Testing Library, pytest e Playwright.

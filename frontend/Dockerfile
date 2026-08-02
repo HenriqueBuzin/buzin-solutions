@@ -1,4 +1,4 @@
-FROM node:24.18.0-bookworm-slim AS dependencies
+FROM node:24.18.1-bookworm-slim AS dependencies
 
 WORKDIR /app
 
