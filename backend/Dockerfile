@@ -1,4 +1,4 @@
-FROM python:3.14.6-slim-bookworm AS poetry
+FROM python:3.14.6-slim-trixie AS poetry
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
