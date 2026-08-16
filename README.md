@@ -44,10 +44,13 @@ docker compose -f docker-compose-prod.yml up -d --build
 Produção publica frontend em `3000` e backend em `8000` por padrão. O Caddy
 serve a SPA e encaminha `/api/*` ao backend. Swagger fica desabilitado.
 
-Na VPS, `.env` é um link simbólico para:
+Na VPS, cada ambiente possui seu próprio diretório e `.env` centralizado:
 
-- `main`: `/root/projects/envs/buzin-solutions.env`
-- `dev`: `/root/projects/envs/buzin-solutions-dev.env`
+- `main`: `/root/projects/envs/buzin-solutions/prod/buzin-solutions-prod.env`
+- `dev`: `/root/projects/envs/buzin-solutions/dev/buzin-solutions-dev.env`
+
+Os diretórios `dev/secrets/` e `prod/secrets/` são reservados para integrações
+futuras. Atualmente permanecem vazios porque a aplicação não usa segredos.
 
 Os projetos Compose são `buzin-solutions` e `buzin-solutions-dev`.
 
