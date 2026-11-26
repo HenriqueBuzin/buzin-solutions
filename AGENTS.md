@@ -63,7 +63,7 @@ Fixar versões exatas e atualizar lockfiles no mesmo commit.
   `packageManager`, `.nvmrc` e `engine-strict=true`.
 - React/React DOM 19.2.8, TypeScript 6.0.3, Vite 8.4.0, Vitest 4.1.12 e
   Playwright 1.62.0.
-- Python 3.14.10 e Poetry 2.4.1. O build aplica atualizações de segurança do sistema.
+- Python 3.15.2 e Poetry 2.4.1. O build aplica atualizações de segurança do sistema.
 - Flask 3.1.3, Flask-Smorest 0.47.0, Marshmallow 4.3.0 e Gunicorn 26.0.0.
 - Black 26.5.1, isort 8.0.1, Ruff 0.16.0, mypy 2.3.0, pytest 9.1.1 e
   pytest-cov 7.1.0.

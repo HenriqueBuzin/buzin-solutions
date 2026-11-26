@@ -1,4 +1,4 @@
-FROM python:3.14.10-slim-trixie AS poetry
+FROM python:3.15.2-slim-trixie AS poetry
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
@@ -23,7 +23,10 @@ RUN poetry install --only main --no-root --no-interaction
 
 FROM poetry AS dependencies-dev
 
-RUN poetry install --with dev --no-root --no-interaction
+RUN apt-get update \
+    && apt-get install --yes --no-install-recommends build-essential \
+    && rm -rf /var/lib/apt/lists/* \
+    && poetry install --with dev --no-root --no-interaction
 
 
 FROM dependencies-dev AS verify
