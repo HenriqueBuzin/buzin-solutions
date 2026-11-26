@@ -664,7 +664,7 @@ ast-serialize = ">=0.6.0,<1.0.0"
 librt = {version = ">=0.13.0", markers = "platform_python_implementation != \"PyPy\""}
 mypy_extensions = ">=1.0.0"
 pathspec = ">=1.0.0"
-typing_extensions = {version = ">=4.6.0", markers = "python_version < \"3.15\""}
+typing_extensions = {version = ">=4.14.0", markers = "python_version >= \"3.15\""}
 
 [package.extras]
 dmypy = ["psutil (>=4.0)"]
@@ -936,5 +936,5 @@ watchdog = ["watchdog (>=2.3)"]
 
 [metadata]
 lock-version = "2.1"
-python-versions = "==3.14.6"
-content-hash = "417e5ccba19f47257c0fce6bbac6ca7b7bc8a012203d354f557fe09b35607ceb"
+python-versions = "==3.15.2"
+content-hash = "91d6a6ed1321cfd4c610ecd6629e8574ca369345a64a6cf8a36cf316e81aae81"

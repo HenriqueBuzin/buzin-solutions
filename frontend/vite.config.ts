@@ -11,7 +11,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://backend:8000',
+        target: `http://${process.env.BACKEND_UPSTREAM ?? 'backend:8000'}`,
         changeOrigin: true,
       },
     },
@@ -21,7 +21,7 @@ export default defineConfig({
     port: 3004,
     strictPort: true,
     host: true,
-    origin: 'http://localhost:3004',
+    allowedHosts: ['buzin-solutions-dev', 'dev.buzin.henriquebuz.in'],
   },
   test: {
     environment: 'jsdom',

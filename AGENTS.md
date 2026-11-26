@@ -32,7 +32,7 @@ Vite. Componentes são pequenos e separados em Background, Header, Main e
 Portfolio. i18next concentra recursos e seleção de idioma. Não adicionar
 arquivos JSX ou JavaScript de aplicação. Desenvolvimento roda Vite em `3004`;
 produção gera arquivos estáticos servidos por Caddy em `3000`. Caddy responde
-`/health`, encaminha `/api/*` para `backend:8000`, comprime respostas e aplica
+`/health`, encaminha `/api/*` para o `BACKEND_UPSTREAM` do ambiente, comprime respostas e aplica
 fallback de SPA.
 
 O backend é uma application factory Flask chamada `create_app`. A API usa
@@ -61,9 +61,9 @@ Fixar versões exatas e atualizar lockfiles no mesmo commit.
 
 - Node.js 24.18.1 LTS e npm 11.16.0, bloqueados por `engines`,
   `packageManager`, `.nvmrc` e `engine-strict=true`.
-- React/React DOM 19.2.8, TypeScript 6.0.3, Vite 8.1.5, Vitest 4.1.10 e
+- React/React DOM 19.2.8, TypeScript 6.0.3, Vite 8.4.0, Vitest 4.1.12 e
   Playwright 1.62.0.
-- Python 3.14.6 e Poetry 2.4.1.
+- Python 3.15.2 e Poetry 2.4.1. O build aplica atualizações de segurança do sistema.
 - Flask 3.1.3, Flask-Smorest 0.47.0, Marshmallow 4.3.0 e Gunicorn 26.0.0.
 - Black 26.5.1, isort 8.0.1, Ruff 0.16.0, mypy 2.3.0, pytest 9.1.1 e
   pytest-cov 7.1.0.
@@ -111,13 +111,17 @@ usam `restart: unless-stopped`, `init`, graceful stop, `no-new-privileges`,
 healthcheck, labels `infra.*`, logs JSON rotacionados e a rede externa
 configurada por `PROXY_NETWORK`, padrão `proxy-network`.
 
-Dev publica frontend `3004` e backend `8004`, monta o código e habilita
-Swagger. Produção publica `3000` e `8000`, não monta código e desabilita
-Swagger. Nomes de imagens são `buzin-solutions/{frontend|backend}:TAG`, com
+Não publicar portas no host. Dev expõe frontend `3004` e backend `8000` na
+rede Docker, monta o código e habilita Swagger. Produção expõe internamente
+`3000` e `8000`, não monta código e desabilita Swagger. O NPM acessa os aliases
+`buzin-solutions-dev:3004` e `buzin-solutions:3000`. Cada backend possui alias
+exclusivo (`buzin-solutions-dev-backend` e `buzin-solutions-backend`), usado
+pelo `BACKEND_UPSTREAM` do frontend. O E2E do Jenkins usa a rede externa e
+esses aliases, sem depender de portas do host. Nomes de imagens são `buzin-solutions/{frontend|backend}:TAG`, com
 sufixo `-dev` apenas em desenvolvimento.
 
-Variáveis aceitas: `ENV`, `VITE_REACT_APP_LANGUAGE`, `FRONTEND_PORT`,
-`BACKEND_PORT`, `PROXY_NETWORK`, `IMAGE_TAG` e `E2E_PLATFORM_COMMAND`.
+Variáveis aceitas: `ENV`, `VITE_REACT_APP_LANGUAGE`, `BACKEND_UPSTREAM`,
+`PROXY_NETWORK`, `IMAGE_TAG` e `E2E_PLATFORM_COMMAND`.
 Segredos não entram no Git. Na VPS, `.env` deve ser link simbólico para o
 arquivo centralizado do ambiente.
 
