@@ -103,7 +103,7 @@ pipeline {
                           environment="dev"
                           env_name="${project}-dev.env"
                         fi
-                        env_file="/root/projects/envs/${project}/${environment}/${env_name}"
+                        env_file="/root/projects/envs/${project}/\${environment}/\${env_name}"
                         image_tag=\$(git rev-parse --short=12 HEAD)
 
                         test -f "\${env_file}"
@@ -136,7 +136,8 @@ pipeline {
                         docker compose -f ${composeFile} up -d --no-build --pull never --remove-orphans --wait --wait-timeout 120
                         docker compose -f ${composeFile} ps
 
-                        proxy_network=\$(docker compose -f ${composeFile} config --format json | python3 -c 'import json,sys; print(json.load(sys.stdin)["networks"]["proxy-network"]["name"])')
+                        frontend_id=\$(docker compose -f ${composeFile} ps -q frontend)
+                        proxy_network=\$(docker inspect --format '{{.HostConfig.NetworkMode}}' "\${frontend_id}")
                         docker run --rm --network "\${proxy_network}" \
                           -e CI=true \
                           -e E2E_PLATFORM_COMMAND \
