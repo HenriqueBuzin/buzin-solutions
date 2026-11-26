@@ -21,7 +21,13 @@ export default defineConfig({
     port: 3004,
     strictPort: true,
     host: true,
-    allowedHosts: ['buzin-solutions-dev', 'dev.buzin.henriquebuz.in'],
+    allowedHosts: [
+      'buzin-solutions-dev',
+      'dev.buzin.solutions',
+      'dev.buzinsolutions.com',
+      'dev.buzinsolutions.com.br',
+      'dev.buzinsolutions.it',
+    ],
   },
   test: {
     environment: 'jsdom',
