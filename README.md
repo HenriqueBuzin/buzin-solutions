@@ -26,11 +26,10 @@ Copie `.env.example` para `.env` e execute:
 docker compose -f docker-compose.yml up -d --build
 ```
 
-Serviços padrão:
-
-- frontend: `http://localhost:3004`
-- backend: `http://localhost:8004/api/v1/health`
-- Swagger: `http://localhost:8004/docs`
+O Compose não publica portas no host. No Nginx Proxy Manager, conectado à
+mesma rede, use `http://buzin-solutions-dev:3004`. A API usa
+`/api/v1/health` no mesmo domínio. Para consultar o Swagger de dev,
+configure um Proxy Host para `http://buzin-solutions-dev-backend:8000/docs`.
 
 Os comandos de execução pertencem aos Dockerfiles. O Compose de
 desenvolvimento apenas seleciona os targets `dev`.
@@ -41,13 +40,21 @@ desenvolvimento apenas seleciona os targets `dev`.
 docker compose -f docker-compose-prod.yml up -d --build
 ```
 
-Produção publica frontend em `3000` e backend em `8000` por padrão. O Caddy
-serve a SPA e encaminha `/api/*` ao backend. Swagger fica desabilitado.
+Produção expõe apenas portas internas à rede Docker: frontend em `3000` e
+backend em `8000`. O NPM deve apontar para `http://buzin-solutions:3000`.
+O Caddy encaminha `/api/*` ao backend exclusivo de produção; o Vite usa o
+backend exclusivo de dev. Swagger fica desabilitado em produção.
 
-Na VPS, `.env` é um link simbólico para:
+Somente o NPM publica HTTP/HTTPS no host. Não é necessário liberar portas
+de aplicação no nftables. O E2E do Jenkins acessa o alias pela rede Docker.
 
-- `main`: `/root/projects/envs/buzin-solutions.env`
-- `dev`: `/root/projects/envs/buzin-solutions-dev.env`
+Na VPS, cada ambiente possui seu próprio diretório e `.env` centralizado:
+
+- `main`: `/root/projects/envs/buzin-solutions/prod/buzin-solutions-prod.env`
+- `dev`: `/root/projects/envs/buzin-solutions/dev/buzin-solutions-dev.env`
+
+Os diretórios `dev/secrets/` e `prod/secrets/` são reservados para integrações
+futuras. Atualmente permanecem vazios porque a aplicação não usa segredos.
 
 Os projetos Compose são `buzin-solutions` e `buzin-solutions-dev`.
 

@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import App from './App';
+import background from './components/Background/universe.gif';
 import i18n from './i18n/i18n';
 
 describe('App', () => {
@@ -20,7 +21,7 @@ describe('App', () => {
     expect(screen.getByText(i18n.t('The sky is the limit'), { exact: false })).toBeInTheDocument();
     expect(document.querySelector('#portfolio')).toBeInTheDocument();
     expect(document.querySelector('.main-container')).toHaveStyle({
-      backgroundImage: 'url("http://localhost:3004/src/components/Background/universe.gif")',
+      backgroundImage: `url("${background}")`,
     });
   });
 });

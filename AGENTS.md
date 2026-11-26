@@ -32,7 +32,7 @@ Vite. Componentes são pequenos e separados em Background, Header, Main e
 Portfolio. i18next concentra recursos e seleção de idioma. Não adicionar
 arquivos JSX ou JavaScript de aplicação. Desenvolvimento roda Vite em `3004`;
 produção gera arquivos estáticos servidos por Caddy em `3000`. Caddy responde
-`/health`, encaminha `/api/*` para `backend:8000`, comprime respostas e aplica
+`/health`, encaminha `/api/*` para o `BACKEND_UPSTREAM` do ambiente, comprime respostas e aplica
 fallback de SPA.
 
 O backend é uma application factory Flask chamada `create_app`. A API usa
@@ -111,13 +111,17 @@ usam `restart: unless-stopped`, `init`, graceful stop, `no-new-privileges`,
 healthcheck, labels `infra.*`, logs JSON rotacionados e a rede externa
 configurada por `PROXY_NETWORK`, padrão `proxy-network`.
 
-Dev publica frontend `3004` e backend `8004`, monta o código e habilita
-Swagger. Produção publica `3000` e `8000`, não monta código e desabilita
-Swagger. Nomes de imagens são `buzin-solutions/{frontend|backend}:TAG`, com
+Não publicar portas no host. Dev expõe frontend `3004` e backend `8000` na
+rede Docker, monta o código e habilita Swagger. Produção expõe internamente
+`3000` e `8000`, não monta código e desabilita Swagger. O NPM acessa os aliases
+`buzin-solutions-dev:3004` e `buzin-solutions:3000`. Cada backend possui alias
+exclusivo (`buzin-solutions-dev-backend` e `buzin-solutions-backend`), usado
+pelo `BACKEND_UPSTREAM` do frontend. O E2E do Jenkins usa a rede externa e
+esses aliases, sem depender de portas do host. Nomes de imagens são `buzin-solutions/{frontend|backend}:TAG`, com
 sufixo `-dev` apenas em desenvolvimento.
 
-Variáveis aceitas: `ENV`, `VITE_REACT_APP_LANGUAGE`, `FRONTEND_PORT`,
-`BACKEND_PORT`, `PROXY_NETWORK`, `IMAGE_TAG` e `E2E_PLATFORM_COMMAND`.
+Variáveis aceitas: `ENV`, `VITE_REACT_APP_LANGUAGE`, `BACKEND_UPSTREAM`,
+`PROXY_NETWORK`, `IMAGE_TAG` e `E2E_PLATFORM_COMMAND`.
 Segredos não entram no Git. Na VPS, `.env` deve ser link simbólico para o
 arquivo centralizado do ambiente.
 
