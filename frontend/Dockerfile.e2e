@@ -1,6 +1,14 @@
 # syntax=docker/dockerfile:1.7
 
+FROM node:24.22.3-bookworm-slim AS node-runtime
+
 FROM mcr.microsoft.com/playwright:v1.62.0-noble
+
+COPY --from=node-runtime /usr/local/bin/node /usr/local/bin/node
+COPY --from=node-runtime /usr/local/lib/node_modules/npm /opt/node-npm
+RUN ln -sf /opt/node-npm/bin/npm-cli.js /usr/local/bin/npm \
+    && test "$(node --version)" = "v24.22.3" \
+    && test "$(npm --version)" = "11.19.1"
 
 WORKDIR /work
 
