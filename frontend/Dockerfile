@@ -1,4 +1,4 @@
-FROM node:24.18.1-bookworm-slim AS dependencies
+FROM node:24.22.3-bookworm-slim AS dependencies
 
 WORKDIR /app
 
@@ -23,7 +23,7 @@ COPY . ./
 RUN npm run verify
 
 
-FROM caddy:2.11.4-alpine AS prod
+FROM caddy:2.11.9-alpine AS prod
 
 COPY --from=build /app/dist /srv
 COPY Caddyfile /etc/caddy/Caddyfile
