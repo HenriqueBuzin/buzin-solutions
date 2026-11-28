@@ -50,8 +50,8 @@ de aplicação no nftables. O E2E do Jenkins acessa o alias pela rede Docker.
 
 Na VPS, cada ambiente possui seu próprio diretório e `.env` centralizado:
 
-- `main`: `/root/projects/envs/buzin-solutions/prod/buzin-solutions-prod.env`
-- `dev`: `/root/projects/envs/buzin-solutions/dev/buzin-solutions-dev.env`
+- `main`: `/srv/vps/projects/envs/buzin-solutions/prod/buzin-solutions-prod.env`
+- `dev`: `/srv/vps/projects/envs/buzin-solutions/dev/buzin-solutions-dev.env`
 
 Os diretórios `dev/secrets/` e `prod/secrets/` são reservados para integrações
 futuras. Atualmente permanecem vazios porque a aplicação não usa segredos.
