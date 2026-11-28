@@ -91,12 +91,13 @@ pipeline {
                     def project = 'buzin-solutions'
                     def suffix = branch == 'dev' ? '-dev' : ''
                     def composeFile = branch == 'dev' ? 'docker-compose.yml' : 'docker-compose-prod.yml'
+                    def environment = branch == 'dev' ? 'dev' : 'prod'
                     def e2ePort = branch == 'dev' ? '3004' : '3000'
 
                     sh """
                         set -eu
                         workspace=\$(pwd)
-                        target="/srv/vps/projects/${project}${suffix}"
+                        target="/srv/vps/projects/${project}/${environment}"
                         environment="prod"
                         env_name="${project}-prod.env"
                         if [ "${branch}" = "dev" ]; then
