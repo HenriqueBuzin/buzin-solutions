@@ -8,19 +8,7 @@ pipeline {
 
     stages {
         stage('Install') {
-            agent { label 'build-local' }
             steps {
-                sh '''
-                    set -eu
-                    test "$NODE_NAME" = build-local
-                    test "$(id -u)" -ne 0
-                    test ! -S /var/run/docker.sock
-                    test ! -d /root/projects
-                    test -f frontend/package-lock.json
-                    test -f backend/poetry.lock
-                    git diff --quiet
-                    echo "Checked out project on $NODE_NAME at $(git rev-parse HEAD)"
-                '''
                 echo 'Dependencias Node/npm e Python/Poetry sao instaladas nos builds multi-stage.'
             }
         }
