@@ -41,7 +41,7 @@ pipeline {
                       environment="dev"
                       env_name="buzin-solutions-dev.env"
                     fi
-                    env_file="/root/projects/envs/buzin-solutions/${environment}/${env_name}"
+                    env_file="/srv/vps/projects/envs/buzin-solutions/${environment}/${env_name}"
                     test -f "$env_file"
                     ln -sfn "$env_file" .env
                     export COMPOSE_PROJECT_NAME="buzin-solutions${suffix}"
@@ -96,14 +96,14 @@ pipeline {
                     sh """
                         set -eu
                         workspace=\$(pwd)
-                        target="/root/projects/${project}${suffix}"
+                        target="/srv/vps/projects/${project}${suffix}"
                         environment="prod"
                         env_name="${project}-prod.env"
                         if [ "${branch}" = "dev" ]; then
                           environment="dev"
                           env_name="${project}-dev.env"
                         fi
-                        env_file="/root/projects/envs/${project}/\${environment}/\${env_name}"
+                        env_file="/srv/vps/projects/envs/${project}/\${environment}/\${env_name}"
                         image_tag=\$(git rev-parse --short=12 HEAD)
 
                         test -f "\${env_file}"
